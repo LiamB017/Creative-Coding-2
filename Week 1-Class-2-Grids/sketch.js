@@ -1,31 +1,29 @@
 
 let boxHeight = 20;
-let boxWidth = 20;
 let spacing = 5;
-let xOffset =0;
-let yOffset =0;
-let numBoxes = 5;
+
+
 
 function setup(){
 createCanvas(500,500)
-background(0);
+background(255);
+angleMode(DEGREES);
+
 
 }
 
 function draw(){
-  drawBoxes();
+    
+    drawBoxes(50,color('green'),1);
+  drawBoxes(10,color('black'),2);
+
 }
 
 
-function drawBoxes(){
-    
-    fill(255,0,0)
-   noStroke();
-        for(let i=0; i<numBoxes; i++){
-            let totalSpace = boxWidth + spacing;
-            rect(i*totalSpace + xOffset,yOffset,boxWidth, boxHeight);
-        }
-    } 
+
+
+
+
 
 
 function clap(startNum, endNum){
