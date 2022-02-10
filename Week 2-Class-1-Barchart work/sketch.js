@@ -11,7 +11,7 @@ let numCounter = tickSpacing;
 
 let availableWidth = chartWidth - (margin * 2) - (spacing * (data.length-1))
 let barWidth = availableWidth / data.length;
-let xbarCount  = 25;
+let xbarCount  = barWidth/2;
 let ybarCount = -20;
 console.log(barWidth)
 
@@ -41,7 +41,7 @@ function draw() {
    for(let i = 0; i <= data.length; i++){
     fill(255,0,0);
     noStroke()
-    textAlign(LEFT, CENTER)
+    textAlign(CENTER)
     text (data[i], (barWidth * i) + (margin + xbarCount), -data[i] + ybarCount);
    }
 
@@ -54,7 +54,7 @@ function draw() {
    noStroke()
    textSize(12)
    textAlign(RIGHT, CENTER)
-   text (i * numCounter, -15, -i * numCounter);
+   text (i * numCounter, -10, -i * numCounter);
     }
 
     translate(margin, 0)
