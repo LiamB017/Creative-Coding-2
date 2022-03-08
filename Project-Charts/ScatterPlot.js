@@ -80,7 +80,7 @@ updateValues(){
     this.chartTitle = "Ridley Scott Films, user vs critic scores vs income"
     this.titleYPos = -410;
     this.XtitleYPos = +85;
-    this.titleFontSize = 18;
+    this.titleFontSize = 20;
     this.ellipsexp = "Ellipse radius = Income"
 
     this.xAxisTitle = "Critic Score"
