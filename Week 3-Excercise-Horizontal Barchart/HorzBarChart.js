@@ -1,11 +1,11 @@
 class HorzBarChart {
     constructor(_data) {
+        this.title = "Horizontal Chart";
         this.data = _data;
-
         this.chartWidth = 300;
         this.chartHeight = 300;
-        this.spacing = 5;
-        this.margin = 30;
+        this.spacing = 10;
+        this.margin = 0;
         this.numTicks = 10;
         this.posX = 50;
         this.posY = 400;
@@ -14,11 +14,12 @@ class HorzBarChart {
         this.numPlaces = 0;
         this.tickSpacing;
         this.barWidth;
+        this.barHeight = -20
         this.availableWidth;
-
         this.showValues = true;
         this.showLabels = true;
         this.rotateLabels = true;
+        this.nameSpacing = -80;
 
         this.colors = [color('#ffe066'), color('#fab666'), color('#f68f6a'), color('#f3646a')];
 
@@ -33,7 +34,9 @@ class HorzBarChart {
     }
 
     calculateMaxValue() {
-        let listValues = this.data.map(function(x) { return x.total })
+        let listValues = this.data.map(function (x) {
+            return x.total
+        })
         this.maxValue = max(listValues);
         this.tickIncrements = this.maxValue / this.numTicks;
     }
@@ -43,10 +46,12 @@ class HorzBarChart {
         push()
         translate(this.posX, this.posY);
 
-        this.drawTicks();
-        this.drawHorizontalLines();
+
+        this.scaleData();
         this.drawRects();
         this.drawAxis();
+        this.drawTicks();
+
         pop()
     }
 
@@ -67,7 +72,7 @@ class HorzBarChart {
             //ticks
             stroke(255);
             strokeWeight(1)
-            line(0, this.tickSpacing * -i, -10, this.tickSpacing * -i);
+            line(-this.tickSpacing * -i, 0, -this.tickSpacing * -i, -10);
 
             //numbers (text)
             if (this.showValues) {
@@ -75,61 +80,47 @@ class HorzBarChart {
                 noStroke();
                 textSize(14);
                 textAlign(RIGHT, CENTER);
-                text((i * this.tickIncrements).toFixed(this.numPlaces), -15, this.tickSpacing * -i);
+                text((i * this.tickIncrements).toFixed(this.numPlaces), (-this.tickSpacing * -i) + 5, 15);
             }
         }
     }
 
-    drawHorizontalLines() {
-        for (let i = 0; i <= this.numTicks; i++) {
-
-            //horizontal line
-            stroke(255, 50);
-            strokeWeight(1)
-            line(0, this.tickSpacing * -i, this.chartWidth, this.tickSpacing * -i);
 
 
-        }
-    }
 
     drawRects() {
         push();
-        translate(this.margin, 0);
+        translate(this.margin, -165);
         for (let i = 0; i < this.data.length; i++) {
             let colorNumber = i % 4;
 
             //bars
             fill(this.colors[colorNumber]);
             noStroke();
-            rect((this.barWidth + this.spacing) * i, 0, this.barWidth, this.scaleData(-this.data[i].total));
-
-            //numbers (text)
-            noStroke();
-            fill(255);
-            textSize(16);
-            textAlign(CENTER, BOTTOM);
-            text(this.data[i].total, ((this.barWidth + this.spacing) * i) + this.barWidth / 2, this.scaleData(-this.data[i].total));
+            rect(0, (this.barWidth + this.spacing) * i, -this.scaleData(-this.data[i].total), this.barHeight);
 
             //text
-            if (this.showLabels) {
-                if (this.rotateLabels) {
-                    push()
-                    noStroke();
-                    textSize(14);
-                    textAlign(LEFT, CENTER);
-                    translate(((this.barWidth + this.spacing) * i) + this.barWidth / 2, 10);
-                    rotate(PI / 2)
-                    text(this.data[i].name, 0, 0);
-                    pop()
-                } else {
+            push()
+            noStroke();
+            textSize(10);
+            textAlign(CENTER);
+            translate(-10, (this.barWidth + this.spacing) * i);
+            rotate(PI / 2)
+            text(this.data[i].name, -10, 20);
+            pop()
 
-                    noStroke();
-                    fill(255);
-                    textSize(14);
-                    textAlign(CENTER, BOTTOM);
-                    text(this.data[i].name, ((this.barWidth + this.spacing) * i) + this.barWidth / 2, 20);
-                }
-            }
+
+            //numbers (text)
+            push();
+
+            fill(255)
+            noStroke();
+            textSize(14);
+            textAlign(LEFT, TOP);
+            text(this.data[i].total, this.scaleData(this.data[i].total), ((this.barWidth + this.spacing) * i) - this.barWidth / 2.5);
+
+            pop();
+
 
 
         }
